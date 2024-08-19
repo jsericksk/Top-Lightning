@@ -2,6 +2,7 @@ package com.kproject.toplightning.presentation.screens.home
 
 import com.kproject.toplightning.data.local.repository.prefs.FakePreferencesRepository
 import com.kproject.toplightning.data.remote.repository.FakeMempoolRepository
+import com.kproject.toplightning.presentation.utils.ViewState
 import com.kproject.toplightning.util.MainDispatcherRule
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -35,24 +36,43 @@ class HomeViewModelTest {
 
     @Test
     fun uiState_whenSortNodeList_thenShouldBeReloadedSorted() = runTest {
-        assertEquals("ComposeCoin", uiState().nodeList[0].alias)
-        assertEquals("BitMister", uiState().nodeList[1].alias)
-        assertEquals("Coin Master", uiState().nodeList[2].alias)
+        val currentNodeList = uiState().nodeList
+        assertEquals("ComposeCoin", currentNodeList[0].alias)
+        assertEquals("BitMister", currentNodeList[1].alias)
+        assertEquals("Coin Master", currentNodeList[2].alias)
 
         viewModel.onUiAction(HomeUiAction.ChangeListOrder(SortListBy.Capacity))
-        assertEquals("Coin Master", uiState().nodeList[0].alias)
-        assertEquals("BitMister", uiState().nodeList[1].alias)
-        assertEquals("ComposeCoin", uiState().nodeList[2].alias)
+        var updatedNodeList = uiState().nodeList
+        assertEquals("Coin Master", updatedNodeList[0].alias)
+        assertEquals("BitMister", updatedNodeList[1].alias)
+        assertEquals("ComposeCoin", updatedNodeList[2].alias)
 
         viewModel.onUiAction(HomeUiAction.ChangeListOrder(SortListBy.LastUpdate))
-        assertEquals("BitMister", uiState().nodeList[0].alias)
-        assertEquals("ComposeCoin", uiState().nodeList[1].alias)
-        assertEquals("Coin Master", uiState().nodeList[2].alias)
+        updatedNodeList = uiState().nodeList
+        assertEquals("BitMister", updatedNodeList[0].alias)
+        assertEquals("ComposeCoin", updatedNodeList[1].alias)
+        assertEquals("Coin Master", updatedNodeList[2].alias)
 
         viewModel.onUiAction(HomeUiAction.ChangeListOrder(SortListBy.Channels))
-        assertEquals("ComposeCoin", uiState().nodeList[0].alias)
-        assertEquals("BitMister", uiState().nodeList[1].alias)
-        assertEquals("Coin Master", uiState().nodeList[2].alias)
+        updatedNodeList = uiState().nodeList
+        assertEquals("ComposeCoin", updatedNodeList[0].alias)
+        assertEquals("BitMister", updatedNodeList[1].alias)
+        assertEquals("Coin Master", updatedNodeList[2].alias)
+    }
+
+    @Test
+    fun uiState_whenRequestError_thenViewStateShouldBeError() = runTest {
+        assertTrue(uiState().nodeList.isNotEmpty())
+
+        mempoolRepository.simulateRequestError = true
+        viewModel.onUiAction(HomeUiAction.RefreshList)
+        assertTrue(uiState().viewState == ViewState.Error)
+        assertTrue(uiState().nodeList.isEmpty())
+
+        mempoolRepository.simulateRequestError = false
+        viewModel.onUiAction(HomeUiAction.RefreshList)
+        assertTrue(uiState().viewState == ViewState.Success)
+        assertTrue(uiState().nodeList.isNotEmpty())
     }
 
     private fun uiState() = viewModel.uiState.value
