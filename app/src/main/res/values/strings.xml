@@ -1,20 +1,20 @@
 <resources>
-    <string name="app_name">Top Lightning</string>
+    <string name="app_name" translatable="false">Top Lightning</string>
 
-    <string name="capacity">Capacidade</string>
-    <string name="channels">Canais</string>
-    <string name="public_key">Chave pública</string>
-    <string name="last_update">Última atualização</string>
-    <string name="first_seen">Visto pela primeira vez</string>
-    <string name="country_flag">Bandeira do país</string>
-    <string name="unknown_country">País desconhecido</string>
-    <string name="error_loading_nodes_data">Desculpe, infelizmente houve um erro ao tentar obter os dados.</string>
-    <string name="try_again">Tentar novamente</string>
+    <string name="capacity">Capacity</string>
+    <string name="channels">Channels</string>
+    <string name="public_key">Public key</string>
+    <string name="last_update">Last update	</string>
+    <string name="first_seen">First seen</string>
+    <string name="country_flag">Country flag</string>
+    <string name="unknown_country">Unknown country</string>
+    <string name="error_loading_nodes_data">Sorry, unfortunately there was an error trying to get the data.</string>
+    <string name="try_again">Try again</string>
 
-    <string name="sort_list_by">Organizar por</string>
-    <string name="sort_list_by_channels">Canais</string>
-    <string name="sort_list_by_capacity">Capacidade</string>
-    <string name="sort_list_by_last_update">Data de atualização</string>
-    <string name="sort">Classificar</string>
+    <string name="sort_list_by">Sort by</string>
+    <string name="sort_list_by_channels">Channels</string>
+    <string name="sort_list_by_capacity">Capacity</string>
+    <string name="sort_list_by_last_update">Update date</string>
+    <string name="sort">Sort</string>
 
 </resources>

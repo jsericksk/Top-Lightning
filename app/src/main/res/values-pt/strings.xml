@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="capacity">Capacidade</string>
+    <string name="channels">Canais</string>
+    <string name="public_key">Chave pública</string>
+    <string name="last_update">Última atualização</string>
+    <string name="first_seen">Visto pela primeira vez</string>
+    <string name="country_flag">Bandeira do país</string>
+    <string name="unknown_country">País desconhecido</string>
+    <string name="error_loading_nodes_data">Desculpe, infelizmente houve um erro ao tentar obter os dados.</string>
+    <string name="try_again">Tentar novamente</string>
+
+    <string name="sort_list_by">Organizar por</string>
+    <string name="sort_list_by_channels">Canais</string>
+    <string name="sort_list_by_capacity">Capacidade</string>
+    <string name="sort_list_by_last_update">Data de atualização</string>
+    <string name="sort">Classificar</string>
+
+</resources>
