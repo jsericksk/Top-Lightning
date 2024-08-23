@@ -1,11 +1,15 @@
 package com.kproject.toplightning.presentation.screens.home
 
+import android.os.Build
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -21,12 +25,13 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -51,6 +56,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -272,11 +278,20 @@ private fun NodeListItem(
 
             Spacer(Modifier.height(spacerHeight))
 
-            SelectionContainer {
+            Box {
+                var showCopyPublicKeyOption by remember { mutableStateOf(false) }
                 CommonNodeItem(
                     iconResId = R.drawable.baseline_key_24,
                     title = stringResource(id = R.string.public_key),
-                    value = node.publicKey
+                    value = node.publicKey,
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.large)
+                        .clickable { showCopyPublicKeyOption = true }
+                )
+                CopyPublicKeyDropdownMenu(
+                    showCopyPublicKeyOption = showCopyPublicKeyOption,
+                    onDismiss = { showCopyPublicKeyOption = false },
+                    publicKey = node.publicKey
                 )
             }
 
@@ -401,6 +416,45 @@ private fun CountryAndCity(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun CopyPublicKeyDropdownMenu(
+    showCopyPublicKeyOption: Boolean,
+    onDismiss: () -> Unit,
+    publicKey: String,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    DropdownMenu(
+        expanded = showCopyPublicKeyOption,
+        onDismissRequest = onDismiss,
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        modifier = modifier
+            .clip(MaterialTheme.shapes.medium)
+    ) {
+        DropdownMenuItem(
+            onClick = {
+                Utils.copyToClipBoard(context = context, text = publicKey)
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+                    Toast.makeText(context, context.getString(R.string.public_key_copied), Toast.LENGTH_SHORT).show()
+                }
+                onDismiss.invoke()
+            },
+            text = {
+                Text(
+                    text = stringResource(id = R.string.copy_public_key),
+                    fontSize = 14.sp
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_content_copy_24),
+                    contentDescription = null
+                )
+            },
+        )
     }
 }
 

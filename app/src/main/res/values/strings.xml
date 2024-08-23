@@ -10,6 +10,8 @@
     <string name="unknown_country">Unknown country</string>
     <string name="error_loading_nodes_data">Sorry, unfortunately there was an error trying to get the data.</string>
     <string name="try_again">Try again</string>
+    <string name="copy_public_key">Copy key</string>
+    <string name="public_key_copied">Key copied successfully!</string>
 
     <string name="sort_list_by">Sort by</string>
     <string name="sort_list_by_channels">Channels</string>
