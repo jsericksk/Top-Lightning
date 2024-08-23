@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kproject.toplightning.presentation.screens.home.HomeScreen
+import com.kproject.toplightning.presentation.navigation.NavGraph
 import com.kproject.toplightning.presentation.screens.home.HomeViewModel
 import com.kproject.toplightning.presentation.theme.TopLightningTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
             TopLightningTheme(darkTheme = uiState.isDarkMode) {
-                HomeScreen(homeViewModel = homeViewModel)
+                NavGraph(homeViewModel = homeViewModel)
             }
         }
     }
