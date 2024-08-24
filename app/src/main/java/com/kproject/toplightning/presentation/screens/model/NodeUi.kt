@@ -1,8 +1,8 @@
 package com.kproject.toplightning.presentation.screens.model
 
 import com.kproject.toplightning.domain.model.Node
-import com.kproject.toplightning.domain.model.TranslationCode
 import com.kproject.toplightning.presentation.utils.Utils
+import java.util.Locale
 
 data class NodeUi(
     val publicKey: String,
@@ -13,6 +13,10 @@ data class NodeUi(
     val updateDate: Long,
     val formattedFirstSeen: String,
     val formattedUpdateDate: String,
+    val locality: Locality
+)
+
+data class Locality(
     val country: String?,
     val city: String?,
     val isoCode: String?
@@ -29,9 +33,6 @@ fun Node.toNodeUi(): NodeUi {
     val formattedFirstSeen = Utils.formatDate(node.firstSeen)
     val formattedUpdateDate = Utils.formatDate(node.updatedAt)
 
-    val country = node.country?.ptBr ?: node.country?.en
-    val city = node.city?.ptBr ?: node.city?.en
-
     return NodeUi(
         publicKey = node.publicKey,
         alias = node.alias,
@@ -41,11 +42,41 @@ fun Node.toNodeUi(): NodeUi {
         updateDate = node.updatedAt,
         formattedFirstSeen = formattedFirstSeen,
         formattedUpdateDate = formattedUpdateDate,
-        country = country,
-        city = city,
-        isoCode = node.isoCode
+        locality = node.createLocality()
     )
 }
+
+private fun Node.createLocality(): Locality {
+    val languageMap = mapOf(
+        "de" to Pair(country?.de, city?.de),
+        "en" to Pair(country?.en, city?.en),
+        "es" to Pair(country?.es, city?.es),
+        "fr" to Pair(country?.fr, city?.fr),
+        "ja" to Pair(country?.ja, city?.ja),
+        "pt" to Pair(country?.ptBr, city?.ptBr),
+        "ru" to Pair(country?.ru, city?.ru),
+        "zh" to Pair(country?.zhCn, city?.zhCn)
+    )
+
+    /**
+     * This only gets the current language from the device and not from the app. It may not be
+     * reflected immediately if there is a language change while using the app.
+     */
+    val deviceLanguage = Locale.getDefault().language
+    val (country, city) = languageMap[deviceLanguage] ?: Pair(country?.en, city?.en)
+
+    return Locality(
+        country = country,
+        city = city,
+        isoCode = isoCode
+    )
+}
+
+val sampleLocality = Locality(
+    country = "United States",
+    city = "New York",
+    isoCode = "US"
+)
 
 val sampleNodeList = List(20) { index ->
     NodeUi(
@@ -57,8 +88,6 @@ val sampleNodeList = List(20) { index ->
         updateDate = 1723684919,
         formattedUpdateDate = "",
         formattedFirstSeen = "",
-        country = "United States",
-        city = "New York",
-        isoCode = "US"
+        locality = sampleLocality,
     )
 }

@@ -367,11 +367,11 @@ private fun CountryAndCity(
     node: NodeUi,
     modifier: Modifier = Modifier,
 ) {
-    val country = node.country
-    val city = node.city
-    val countryCode = node.isoCode
-    val countryName = node.country ?: stringResource(id = R.string.unknown_country)
-    val cityName = node.city ?: ""
+    val country = node.locality.country
+    val city = node.locality.city
+    val countryCode = node.locality.isoCode
+    val countryName = country ?: stringResource(id = R.string.unknown_country)
+    val cityName = city ?: ""
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier,

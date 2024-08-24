@@ -1,0 +1,41 @@
+[33mcommit 308b1f51a73dc353b038037e3f0142f3b2c20604[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m)[m
+Author: jsericksk <jsericksk@gmail.com>
+Date:   Fri Aug 23 21:34:17 2024 -0300
+
+    refactor: Create NodeUi data class and move date/bitcoin formatting logic
+
+[33mcommit 926d9f4bbb0d57e4ca6d04bf3c4aaad7c0b31298[m
+Author: jsericksk <jsericksk@gmail.com>
+Date:   Fri Aug 23 20:38:37 2024 -0300
+
+    feat: Create NavGraph
+
+[33mcommit 2386ac29b27e677154eeef664bcb36b5b6f3df5b[m
+Author: jsericksk <jsericksk@gmail.com>
+Date:   Thu Aug 22 21:09:29 2024 -0300
+
+    refactor: Improve option to copy public key
+
+[33mcommit d26a062c7efb3820a583005073f770cf22841c8a[m
+Author: jsericksk <jsericksk@gmail.com>
+Date:   Thu Aug 22 20:21:10 2024 -0300
+
+    project: Translate to English language and add it as default
+
+[33mcommit 8319fdb3b857f981f01fd2c344b868032e8aaad9[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: jsericksk <jsericksk@gmail.com>
+Date:   Sun Aug 18 21:00:05 2024 -0300
+
+    test: Add new test and small improvements
+
+[33mcommit 441e177c51c892e92fee7e6970ae7763c5eda197[m
+Author: jsericksk <jsericksk@gmail.com>
+Date:   Sun Aug 18 19:57:09 2024 -0300
+
+    project: Create README
+
+[33mcommit fc61c98125a1287c9dd9b8085dfd005d7216c914[m
+Author: jsericksk <jsericksk@gmail.com>
+Date:   Sun Aug 18 17:13:23 2024 -0300
+
+    Initial commit
