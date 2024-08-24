@@ -76,10 +76,10 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.kproject.toplightning.R
-import com.kproject.toplightning.domain.model.Node
-import com.kproject.toplightning.domain.model.sampleNodeList
 import com.kproject.toplightning.presentation.screens.components.Image
 import com.kproject.toplightning.presentation.screens.home.components.ListSorterBottomSheet
+import com.kproject.toplightning.presentation.screens.model.NodeUi
+import com.kproject.toplightning.presentation.screens.model.sampleNodeList
 import com.kproject.toplightning.presentation.theme.PreviewTheme
 import com.kproject.toplightning.presentation.utils.Utils
 import com.kproject.toplightning.presentation.utils.ViewState
@@ -198,7 +198,7 @@ fun HomeContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NodeList(
-    nodeList: List<Node>,
+    nodeList: List<NodeUi>,
     listState: LazyListState,
     isRefreshing: Boolean,
     onRefreshList: () -> Unit,
@@ -232,7 +232,7 @@ private fun NodeList(
 @Composable
 private fun NodeListItem(
     index: Int,
-    node: Node,
+    node: NodeUi,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -262,18 +262,15 @@ private fun NodeListItem(
             CommonNodeItem(
                 iconResId = R.drawable.baseline_language_24,
                 title = stringResource(id = R.string.channels),
-                value = node.channels.toString()
+                value = node.channels
             )
 
             Spacer(Modifier.height(spacerHeight))
 
-            val formattedCapacity = remember {
-                Utils.convertSatoshiToBitcoin(node.capacity.toString())
-            }
             CommonNodeItem(
                 iconResId = R.drawable.baseline_currency_bitcoin_24,
                 title = stringResource(id = R.string.capacity),
-                value = formattedCapacity
+                value = node.capacity
             )
 
             Spacer(Modifier.height(spacerHeight))
@@ -297,24 +294,18 @@ private fun NodeListItem(
 
             Spacer(Modifier.height(spacerHeight))
 
-            val lastUpdate = remember {
-                Utils.formatDate(node.updatedAt)
-            }
             CommonNodeItem(
                 iconResId = R.drawable.baseline_update_24,
                 title = stringResource(id = R.string.last_update),
-                value = lastUpdate,
+                value = node.formattedUpdateDate,
             )
 
             Spacer(Modifier.height(spacerHeight))
 
-            val firstSeen = remember {
-                Utils.formatDate(node.firstSeen)
-            }
             CommonNodeItem(
                 iconResId = R.drawable.baseline_calendar_month_24,
                 title = stringResource(id = R.string.first_seen),
-                value = firstSeen,
+                value = node.formattedFirstSeen,
             )
         }
     }
@@ -373,14 +364,14 @@ private fun Modifier.circleBackground(color: Color, padding: Dp): Modifier {
 
 @Composable
 private fun CountryAndCity(
-    node: Node,
+    node: NodeUi,
     modifier: Modifier = Modifier,
 ) {
     val country = node.country
     val city = node.city
     val countryCode = node.isoCode
-    val countryName = country?.ptBr ?: country?.en ?: stringResource(id = R.string.unknown_country)
-    val cityName = city?.ptBr ?: city?.en ?: ""
+    val countryName = node.country ?: stringResource(id = R.string.unknown_country)
+    val cityName = node.city ?: ""
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier,
@@ -438,7 +429,11 @@ private fun CopyPublicKeyDropdownMenu(
             onClick = {
                 Utils.copyToClipBoard(context = context, text = publicKey)
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-                    Toast.makeText(context, context.getString(R.string.public_key_copied), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.public_key_copied),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 onDismiss.invoke()
             },

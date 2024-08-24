@@ -2,12 +2,13 @@ package com.kproject.toplightning.presentation.screens.home
 
 import com.kproject.toplightning.R
 import com.kproject.toplightning.domain.model.Node
+import com.kproject.toplightning.presentation.screens.model.NodeUi
 import com.kproject.toplightning.presentation.utils.ViewState
 
 data class HomeUiState(
     val viewState: ViewState = ViewState.Loading,
     val isDarkMode: Boolean = true,
-    val nodeList: List<Node> = emptyList(),
+    val nodeList: List<NodeUi> = emptyList(),
     val isRefreshingNodeList: Boolean = false,
     val sortListBy: SortListBy = SortListBy.Channels
 )

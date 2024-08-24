@@ -6,7 +6,8 @@ import com.kproject.toplightning.commom.ResultState
 import com.kproject.toplightning.commom.constants.PrefsConstants
 import com.kproject.toplightning.data.local.repository.prefs.PreferenceRepository
 import com.kproject.toplightning.data.remote.repository.MempoolRepository
-import com.kproject.toplightning.domain.model.Node
+import com.kproject.toplightning.presentation.screens.model.NodeUi
+import com.kproject.toplightning.presentation.screens.model.toNodeUiList
 import com.kproject.toplightning.presentation.utils.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,13 +60,10 @@ class HomeViewModel @Inject constructor(
                     }
 
                     is ResultState.Success -> {
-                        val nodeList = result.data
+                        val nodeList = result.data.toNodeUiList()
                         val currentListSortBy = uiState.value.sortListBy
                         val sortedNodeList = if (currentListSortBy != SortListBy.Channels) {
-                            getSortedNodeList(
-                                nodeList = nodeList,
-                                sortListBy = currentListSortBy
-                            )
+                            nodeList.getSortedNodeList(sortListBy = currentListSortBy)
                         } else {
                             // The list is already sorted by channels by the API,
                             // so there is no need to reorder it.
@@ -100,18 +98,13 @@ class HomeViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 sortListBy = sortListBy,
-                nodeList = getSortedNodeList(
-                    nodeList = currentList,
-                    sortListBy = sortListBy
-                )
+                nodeList = currentList.getSortedNodeList(sortListBy = sortListBy)
             )
         }
     }
 
-    private fun getSortedNodeList(
-        nodeList: List<Node>,
-        sortListBy: SortListBy
-    ): List<Node> {
+    private fun List<NodeUi>.getSortedNodeList(sortListBy: SortListBy): List<NodeUi> {
+        val nodeList = this
         val updatedNodeList = when (sortListBy) {
             SortListBy.Channels -> {
                 nodeList.sortedByDescending { it.channels }
@@ -122,7 +115,7 @@ class HomeViewModel @Inject constructor(
             }
 
             SortListBy.LastUpdate -> {
-                nodeList.sortedByDescending { it.updatedAt }
+                nodeList.sortedByDescending { it.updateDate }
             }
         }
         return updatedNodeList
