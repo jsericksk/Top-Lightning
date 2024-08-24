@@ -45,5 +45,5 @@ To test the app, download the apk from the [releases](https://github.com/jserick
 
 - [Retrofit](https://github.com/square/retrofit): API consume.
 - [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android): Dependency injection.
-- [Landscapist](https://g[README.md](README.md)ithub.com/skydoves/landscapist): Load images from web.
+- [Landscapist](https://github.com/skydoves/landscapist): Load images from web.
 - [Lottie Compose](https://github.com/airbnb/lottie-android/): Load Lottie animations.
