@@ -1,6 +1,7 @@
 package com.kproject.toplightning.presentation.screens.model
 
 import com.kproject.toplightning.domain.model.Node
+import com.kproject.toplightning.presentation.utils.DateUtils
 import com.kproject.toplightning.presentation.utils.Utils
 import java.util.Locale
 
@@ -30,8 +31,11 @@ fun Node.toNodeUi(): NodeUi {
     val node = this
     val channels = node.channels.toString()
     val capacity = Utils.convertSatoshiToBitcoin(node.capacity.toString())
-    val formattedFirstSeen = Utils.formatDate(node.firstSeen)
-    val formattedUpdateDate = Utils.formatDate(node.updatedAt)
+    val formattedFirstSeen = DateUtils.getFormattedDateTime(
+        unixTime = node.firstSeen,
+        dateTimePattern = "dd MMM yyyy"
+    )
+    val formattedUpdateDate = DateUtils.getRelativeTimeSpan(node.updatedAt)
 
     return NodeUi(
         publicKey = node.publicKey,
@@ -42,11 +46,11 @@ fun Node.toNodeUi(): NodeUi {
         updateDate = node.updatedAt,
         formattedFirstSeen = formattedFirstSeen,
         formattedUpdateDate = formattedUpdateDate,
-        locality = node.createLocality()
+        locality = node.getLocality()
     )
 }
 
-private fun Node.createLocality(): Locality {
+private fun Node.getLocality(): Locality {
     val languageMap = mapOf(
         "de" to Pair(country?.de, city?.de),
         "en" to Pair(country?.en, city?.en),
