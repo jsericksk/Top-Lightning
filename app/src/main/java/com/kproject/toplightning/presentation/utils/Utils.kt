@@ -5,17 +5,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 object Utils {
-
-    fun formatDate(unixTime: Long): String {
-        val time = Date(unixTime * 1000)
-        val simpleDateFormat = SimpleDateFormat("HH:mm - dd MMM yyyy", Locale.getDefault())
-        return simpleDateFormat.format(time)
-    }
 
     fun convertSatoshiToBitcoin(satoshis: String): String {
         return try {
