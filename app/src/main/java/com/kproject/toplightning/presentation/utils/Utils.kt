@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.NumberFormat
 
 object Utils {
 
@@ -13,7 +14,11 @@ object Utils {
             val satoshiValue = BigDecimal("100000000")
             val satoshisToConvert = BigDecimal(satoshis)
             val bitcoins = satoshisToConvert.divide(satoshiValue, 8, RoundingMode.HALF_EVEN)
-            "$bitcoins BTC"
+            val numberFormat = NumberFormat.getInstance()
+            numberFormat.minimumFractionDigits = 8
+            numberFormat.maximumFractionDigits = 8
+            val formattedBitcoins = numberFormat.format(bitcoins)
+            "$formattedBitcoins BTC"
         } catch (e: Exception) {
             "?.???????? BTC"
         }

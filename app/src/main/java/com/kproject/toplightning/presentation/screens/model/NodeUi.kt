@@ -3,6 +3,7 @@ package com.kproject.toplightning.presentation.screens.model
 import com.kproject.toplightning.domain.model.Node
 import com.kproject.toplightning.presentation.utils.DateUtils
 import com.kproject.toplightning.presentation.utils.Utils
+import java.text.NumberFormat
 import java.util.Locale
 
 data class NodeUi(
@@ -29,7 +30,7 @@ fun List<Node>.toNodeUiList(): List<NodeUi> {
 
 fun Node.toNodeUi(): NodeUi {
     val node = this
-    val channels = node.channels.toString()
+    val channels = NumberFormat.getInstance().format(node.channels)
     val capacity = Utils.convertSatoshiToBitcoin(node.capacity.toString())
     val formattedFirstSeen = DateUtils.getFormattedDateTime(
         unixTime = node.firstSeen,
@@ -95,7 +96,7 @@ val sampleNodeList = List(20) { index ->
     NodeUi(
         publicKey = "${index}9238484864ef025fde8fb587d9ak1k1186895ee44a926bfc370e2c3228ud203",
         alias = "BitBit",
-        channels = "2547",
+        channels = NumberFormat.getInstance().format(2547),
         capacity = "555.000 BTC",
         firstSeen = firstSeen,
         updateDate = updateDate,
