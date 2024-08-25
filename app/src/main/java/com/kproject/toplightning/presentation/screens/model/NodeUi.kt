@@ -83,15 +83,24 @@ val sampleLocality = Locality(
 )
 
 val sampleNodeList = List(20) { index ->
+    val firstSeen = if (index % 2 == 0) 1522941222L else 1529506821L
+    val formattedFirstSeen = DateUtils.getFormattedDateTime(
+        unixTime = firstSeen,
+        dateTimePattern = "dd MMM yyyy"
+    )
+    val currentTimeInUnix = System.currentTimeMillis() / 1000L
+    val updateDate = currentTimeInUnix - ((index + 1) * 60)
+    val formattedUpdateDate = DateUtils.getRelativeTimeSpan(updateDate)
+
     NodeUi(
         publicKey = "${index}9238484864ef025fde8fb587d9ak1k1186895ee44a926bfc370e2c3228ud203",
         alias = "BitBit",
         channels = "2547",
         capacity = "555.000 BTC",
-        firstSeen = 1522941222,
-        updateDate = 1723684919,
-        formattedUpdateDate = "",
-        formattedFirstSeen = "",
+        firstSeen = firstSeen,
+        updateDate = updateDate,
+        formattedFirstSeen = formattedFirstSeen,
+        formattedUpdateDate = formattedUpdateDate,
         locality = sampleLocality,
     )
 }
