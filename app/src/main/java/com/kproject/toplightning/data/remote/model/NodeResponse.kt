@@ -13,7 +13,8 @@ data class NodeResponse(
     val updatedAt: Long,
     val city: TranslationCodeResponse?,
     val country: TranslationCodeResponse?,
-    @SerializedName("iso_code") val isoCode: String?
+    @SerializedName("iso_code")
+    val isoCode: String?
 )
 
 data class TranslationCodeResponse(
@@ -22,9 +23,11 @@ data class TranslationCodeResponse(
     val es: String?,
     val fr: String?,
     val ja: String?,
-    @SerializedName("pt-BR") val ptBr: String?,
+    @SerializedName("pt-BR")
+    val ptBr: String?,
     val ru: String?,
-    @SerializedName("zh-CN") val zhCn: String?
+    @SerializedName("zh-CN")
+    val zhCn: String?
 )
 
 fun NodeResponse.toNodeModel(): Node = Node(
