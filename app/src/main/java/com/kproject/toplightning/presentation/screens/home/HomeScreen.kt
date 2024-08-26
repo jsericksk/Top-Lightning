@@ -262,7 +262,7 @@ private fun NodeListItem(
             CommonNodeItem(
                 iconResId = R.drawable.baseline_language_24,
                 title = stringResource(id = R.string.channels),
-                value = node.channels
+                value = node.formattedChannels
             )
 
             Spacer(Modifier.height(spacerHeight))
@@ -270,7 +270,7 @@ private fun NodeListItem(
             CommonNodeItem(
                 iconResId = R.drawable.baseline_currency_bitcoin_24,
                 title = stringResource(id = R.string.capacity),
-                value = node.capacity
+                value = node.formattedCapacity
             )
 
             Spacer(Modifier.height(spacerHeight))

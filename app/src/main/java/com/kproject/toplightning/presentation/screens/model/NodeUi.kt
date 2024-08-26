@@ -9,14 +9,25 @@ import java.util.Locale
 data class NodeUi(
     val publicKey: String,
     val alias: String,
-    val channels: String,
-    val capacity: String,
+    val channels: Long,
+    val capacity: Long,
     val firstSeen: Long,
     val updateDate: Long,
-    val formattedFirstSeen: String,
-    val formattedUpdateDate: String,
     val locality: Locality
-)
+) {
+    val formattedChannels: String by lazy { NumberFormat.getInstance().format(channels) }
+
+    val formattedCapacity: String by lazy { Utils.convertSatoshiToBitcoin(capacity.toString()) }
+
+    val formattedFirstSeen: String by lazy {
+        DateUtils.getFormattedDateTime(
+            unixTime = firstSeen,
+            dateTimePattern = "dd MMM yyyy"
+        )
+    }
+
+    val formattedUpdateDate: String by lazy { DateUtils.getRelativeTimeSpan(updateDate) }
+}
 
 data class Locality(
     val country: String?,
@@ -30,23 +41,13 @@ fun List<Node>.toNodeUiList(): List<NodeUi> {
 
 fun Node.toNodeUi(): NodeUi {
     val node = this
-    val channels = NumberFormat.getInstance().format(node.channels)
-    val capacity = Utils.convertSatoshiToBitcoin(node.capacity.toString())
-    val formattedFirstSeen = DateUtils.getFormattedDateTime(
-        unixTime = node.firstSeen,
-        dateTimePattern = "dd MMM yyyy"
-    )
-    val formattedUpdateDate = DateUtils.getRelativeTimeSpan(node.updatedAt)
-
     return NodeUi(
         publicKey = node.publicKey,
         alias = node.alias,
-        channels = channels,
-        capacity = capacity,
+        channels = node.channels,
+        capacity = node.capacity,
         firstSeen = node.firstSeen,
         updateDate = node.updatedAt,
-        formattedFirstSeen = formattedFirstSeen,
-        formattedUpdateDate = formattedUpdateDate,
         locality = node.getLocality()
     )
 }
@@ -85,23 +86,16 @@ val sampleLocality = Locality(
 
 val sampleNodeList = List(20) { index ->
     val firstSeen = if (index % 2 == 0) 1522941222L else 1529506821L
-    val formattedFirstSeen = DateUtils.getFormattedDateTime(
-        unixTime = firstSeen,
-        dateTimePattern = "dd MMM yyyy"
-    )
     val currentTimeInUnix = System.currentTimeMillis() / 1000L
     val updateDate = currentTimeInUnix - ((index + 1) * 60)
-    val formattedUpdateDate = DateUtils.getRelativeTimeSpan(updateDate)
 
     NodeUi(
         publicKey = "${index}9238484864ef025fde8fb587d9ak1k1186895ee44a926bfc370e2c3228ud203",
         alias = "BitBit",
-        channels = NumberFormat.getInstance().format(2547),
-        capacity = "555.000 BTC",
+        channels = 2547,
+        capacity = 555000,
         firstSeen = firstSeen,
         updateDate = updateDate,
-        formattedFirstSeen = formattedFirstSeen,
-        formattedUpdateDate = formattedUpdateDate,
-        locality = sampleLocality,
+        locality = sampleLocality
     )
 }
