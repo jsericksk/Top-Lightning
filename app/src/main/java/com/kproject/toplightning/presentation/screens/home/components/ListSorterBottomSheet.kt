@@ -52,7 +52,6 @@ fun ListSorterBottomSheet(
             modifier = modifier
         ) {
             Content(
-                title = stringResource(id = R.string.sort_list_by),
                 options = SortListBy.entries,
                 selectedSortOption = currentSelectedSortOption,
                 onSelectedSortOptionChange = { currentSelectedSortOption = it },
@@ -65,7 +64,6 @@ fun ListSorterBottomSheet(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun Content(
-    title: String,
     options: List<SortListBy>,
     selectedSortOption: SortListBy,
     onSelectedSortOptionChange: (SortListBy) -> Unit,
@@ -78,7 +76,7 @@ private fun Content(
             .padding(16.dp)
     ) {
         Text(
-            text = title,
+            text = stringResource(id = R.string.sort_list_by),
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.align(Alignment.CenterHorizontally)
