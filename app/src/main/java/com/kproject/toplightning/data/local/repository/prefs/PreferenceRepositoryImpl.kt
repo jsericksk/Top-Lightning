@@ -8,7 +8,7 @@ private const val PrefsName = "options"
 
 class PreferenceRepositoryImpl(
     private val context: Context,
-    private val prefs: SharedPreferences = context.getSharedPreferences(PrefsName, 0)
+    private val prefs: SharedPreferences = context.getSharedPreferences(PrefsName, Context.MODE_PRIVATE)
 ) : PreferenceRepository {
 
     override fun <T> getPreference(key: String, defaultValue: T): T {
