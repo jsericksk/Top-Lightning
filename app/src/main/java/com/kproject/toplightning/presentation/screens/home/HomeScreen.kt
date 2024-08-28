@@ -49,23 +49,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.offset
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -132,8 +132,7 @@ fun HomeContent(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_sort_24),
-                        contentDescription = null,
-                        modifier = Modifier
+                        contentDescription = null
                     )
                 }
             }
@@ -330,49 +329,42 @@ private fun Alias(
     ranking: Int,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Text(
-            text = "$ranking",
-            fontSize = 26.sp,
-            fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .circleBackground(
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    padding = 12.dp
+    val aliasAnnotatedString = remember {
+        buildAnnotatedString {
+            withStyle(
+                SpanStyle(
+                    color = Color(0xFFDB0808),
+                    fontSize = 34.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.Cursive
                 )
-        )
-        Spacer(Modifier.height(8.dp))
-        Text(
-            text = alias,
-            fontSize = 26.sp,
-            fontWeight = FontWeight.ExtraBold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-    }
-}
-
-private fun Modifier.circleBackground(color: Color, padding: Dp): Modifier {
-    val backgroundModifier = drawBehind {
-        drawCircle(color, size.width / 2f, center = Offset(size.width / 2f, size.height / 2f))
-    }
-
-    val layoutModifier = layout { measurable, constraints ->
-        val adjustedConstraints = constraints.offset(-padding.roundToPx())
-        val placeable = measurable.measure(adjustedConstraints)
-        val currentHeight = placeable.height
-        val currentWidth = placeable.width
-        val newDiameter = maxOf(currentHeight, currentWidth) + padding.roundToPx() * 2
-        layout(newDiameter, newDiameter) {
-            placeable.placeRelative(
-                (newDiameter - currentWidth) / 2,
-                (newDiameter - currentHeight) / 2
-            )
+            ) {
+                append("$ranking. ")
+            }
+            withStyle(
+                SpanStyle(
+                    fontSize = 26.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                )
+            ) {
+                append(alias)
+            }
         }
     }
-
-    return this then backgroundModifier then layoutModifier
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = aliasAnnotatedString,
+            textAlign = TextAlign.Center,
+            style = TextStyle(
+                platformStyle = PlatformTextStyle(includeFontPadding = false)
+            )
+        )
+    }
 }
 
 @Composable
@@ -402,7 +394,7 @@ private fun CountryAndCity(
                 .size(60.dp, 40.dp)
                 .clip(RoundedCornerShape(6.dp))
         )
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.width(14.dp))
         Column {
             Text(
                 text = countryName,
@@ -562,7 +554,7 @@ private fun ErrorContentPreview() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun NodeListItemPreview() {
     PreviewTheme {

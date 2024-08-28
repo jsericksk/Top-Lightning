@@ -85,15 +85,16 @@ val sampleLocality = Locality(
 )
 
 val sampleNodeList = List(20) { index ->
+    val alias = if (index % 2 == 0) "BitBit" else "JokBit Hujam Hamam Kajan"
     val firstSeen = if (index % 2 == 0) 1522941222L else 1529506821L
     val currentTimeInUnix = System.currentTimeMillis() / 1000L
     val updateDate = currentTimeInUnix - ((index + 1) * 60)
 
     NodeUi(
         publicKey = "${index}9238484864ef025fde8fb587d9ak1k1186895ee44a926bfc370e2c3228ud203",
-        alias = "BitBit",
+        alias = alias,
         channels = 2547,
-        capacity = 555000,
+        capacity = 550000,
         firstSeen = firstSeen,
         updateDate = updateDate,
         locality = sampleLocality
