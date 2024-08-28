@@ -29,7 +29,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -155,14 +154,7 @@ fun HomeContent(
             ) { viewState ->
                 when (viewState) {
                     ViewState.Loading -> {
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .fillMaxSize(),
-                        ) {
-                            CircularProgressIndicator(modifier = Modifier.size(64.dp))
-                        }
+                        LoadingContent()
                     }
 
                     ViewState.Success -> {
@@ -192,6 +184,27 @@ fun HomeContent(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun LoadingContent() {
+    val composition by rememberLottieComposition(
+        spec = LottieCompositionSpec.RawRes(R.raw.bitcoin_loading_animation)
+    )
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            modifier = Modifier.size(200.dp)
+        )
     }
 }
 
@@ -458,7 +471,6 @@ private fun CommonNodeItem(
     @DrawableRes iconResId: Int,
     title: String,
     value: String,
-    valueFontSize: Int = 16,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -478,7 +490,7 @@ private fun CommonNodeItem(
             )
             Text(
                 text = value,
-                fontSize = valueFontSize.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )
         }
