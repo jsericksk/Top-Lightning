@@ -329,26 +329,24 @@ private fun Alias(
     ranking: Int,
     modifier: Modifier = Modifier,
 ) {
-    val aliasAnnotatedString = remember {
-        buildAnnotatedString {
-            withStyle(
-                SpanStyle(
-                    color = Color(0xFFDB0808),
-                    fontSize = 34.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontFamily = FontFamily.Cursive
-                )
-            ) {
-                append("$ranking. ")
-            }
-            withStyle(
-                SpanStyle(
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                )
-            ) {
-                append(alias)
-            }
+    val aliasAnnotatedString = buildAnnotatedString {
+        withStyle(
+            SpanStyle(
+                color = Color(0xFFDB0808),
+                fontSize = 34.sp,
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = FontFamily.Cursive
+            )
+        ) {
+            append("$ranking. ")
+        }
+        withStyle(
+            SpanStyle(
+                fontSize = 26.sp,
+                fontWeight = FontWeight.ExtraBold,
+            )
+        ) {
+            append(alias)
         }
     }
     Row(
