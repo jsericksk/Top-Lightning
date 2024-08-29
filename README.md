@@ -29,13 +29,13 @@ In addition to what was requested, the app has some other basic features, such a
 
 There are some points that could be improved in the project, but that I ended up not implementing. For example:
 
-- The date/time formatting and bitcoin conversion could be done in the **ViewModel** using a specific **Node** class for the UI layer, making the Composables use the data already processed, with the **capacity** and **firstSeen** fields already converted, for example.
-- The date and time conversion could have better formatting. For example: ***"1h ago (full date)"***.
-- The conversion of satoshis to bitcoins should consider the device's language to display a period or a comma. For example: **0.10000000** (en locale) and **0,10000000** (pt locale).
-- When obtaining the translation of the city and country, it should consider the device's language at the time and check if there is a translation for that language.
-- It is possible to copy the **public key** of the node with a long click, but this UX could be improved.
-- An option to display in grid mode would be nice.
-- Create a shimmer effect instead of a simple standard loading.
+- [x] The date/time formatting and bitcoin conversion could be done in the **ViewModel** using a specific **Node** class for the UI layer, making the Composables use the data already processed, with the **capacity** and **firstSeen** fields already converted, for example.
+- [x] The date and time conversion could have better formatting. For example: ***"1h ago (full date)"***.
+- [x] The conversion of satoshis to bitcoins should consider the device's language to display a period or a comma. For example: **0.10000000** (en locale) and **0,10000000** (pt locale).
+- [x] When obtaining the translation of the city and country, it should consider the device's language at the time and check if there is a translation for that language.
+- [x] It is possible to copy the **public key** of the node with a long click, but this UX could be improved.
+- [ ] An option to display in grid mode would be nice.
+- [ ] Create a shimmer effect instead of a simple standard loading.
 
 ## :iphone: Download app
 
