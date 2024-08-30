@@ -267,7 +267,11 @@ private fun NodeListItem(
 
             Spacer(Modifier.height(spacerHeight + 6.dp))
 
-            CountryAndCity(node = node)
+            CountryAndCity(
+                country = node.locality.country,
+                city = node.locality.city,
+                isoCode = node.locality.isoCode
+            )
 
             Spacer(Modifier.height(spacerHeight))
 
@@ -367,12 +371,11 @@ private fun Alias(
 
 @Composable
 private fun CountryAndCity(
-    node: NodeUi,
+    country: String?,
+    city: String?,
+    isoCode: String?,
     modifier: Modifier = Modifier,
 ) {
-    val country = node.locality.country
-    val city = node.locality.city
-    val countryCode = node.locality.isoCode
     val countryName = country ?: stringResource(id = R.string.unknown_country)
     val cityName = city ?: ""
     Row(
@@ -380,7 +383,7 @@ private fun CountryAndCity(
         modifier = modifier,
     ) {
         val countryFlagImage: Any = if (country != null) {
-            "https://flagcdn.com/256x192/${countryCode?.lowercase()}.png"
+            "https://flagcdn.com/256x192/${isoCode?.lowercase()}.png"
         } else {
             R.drawable.baseline_flag_24
         }
