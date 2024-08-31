@@ -76,6 +76,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.kproject.toplightning.R
 import com.kproject.toplightning.presentation.screens.components.Image
+import com.kproject.toplightning.presentation.screens.home.components.CustomSearchBar
 import com.kproject.toplightning.presentation.screens.home.components.ListSorterBottomSheet
 import com.kproject.toplightning.presentation.screens.model.NodeUi
 import com.kproject.toplightning.presentation.screens.model.sampleNodeList
@@ -158,23 +159,34 @@ fun HomeContent(
 
                     ViewState.Success -> {
                         val listState = rememberLazyListState()
-                        NodeList(
-                            nodeList = uiState.nodeList,
-                            listState = listState,
-                            isRefreshing = uiState.isRefreshingNodeList,
-                            onRefreshList = { onUiAction.invoke(HomeUiAction.RefreshList) }
-                        )
+                        Column(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            CustomSearchBar(
+                                query = uiState.searchQuery,
+                                onQueryChange = { query ->
+                                    onUiAction(HomeUiAction.ChangeSearchQuery(query))
+                                }
+                            )
 
-                        ListSorterBottomSheet(
-                            showBottomSheet = showListSorterBottomSheet,
-                            onDismiss = { showListSorterBottomSheet = false },
-                            selectedSortOption = uiState.sortListBy,
-                            onSort = { sortListBy ->
-                                onUiAction.invoke(HomeUiAction.ChangeListOrder(sortListBy))
-                                showListSorterBottomSheet = false
-                                listState.requestScrollToItem(0)
-                            }
-                        )
+                            NodeList(
+                                nodeList = uiState.realNodeList,
+                                listState = listState,
+                                isRefreshing = uiState.isRefreshingNodeList,
+                                onRefreshList = { onUiAction.invoke(HomeUiAction.RefreshList) }
+                            )
+
+                            ListSorterBottomSheet(
+                                showBottomSheet = showListSorterBottomSheet,
+                                onDismiss = { showListSorterBottomSheet = false },
+                                selectedSortOption = uiState.sortListBy,
+                                onSort = { sortListBy ->
+                                    onUiAction.invoke(HomeUiAction.ChangeListOrder(sortListBy))
+                                    showListSorterBottomSheet = false
+                                    listState.requestScrollToItem(0)
+                                }
+                            )
+                        }
                     }
 
                     ViewState.Error -> {

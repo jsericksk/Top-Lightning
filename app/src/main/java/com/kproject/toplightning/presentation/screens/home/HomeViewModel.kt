@@ -43,7 +43,20 @@ class HomeViewModel @Inject constructor(
             is HomeUiAction.ChangeListOrder -> {
                 sortNodeList(action.sortListBy)
             }
+
+            is HomeUiAction.ChangeSearchQuery -> {
+                _uiState.update { it.copy(searchQuery = action.searchQuery) }
+                searchNodes(action.searchQuery)
+            }
         }
+    }
+
+    private fun searchNodes(nodeAlias: String) {
+        val nodeList = uiState.value.nodeList
+        val searchedList = nodeList.filter { nodeUi ->
+            nodeUi.alias.lowercase().contains(nodeAlias.lowercase())
+        }
+        _uiState.update { it.copy(searchedNodeList = searchedList) }
     }
 
     private fun getTopNodesByConnectivity() {
